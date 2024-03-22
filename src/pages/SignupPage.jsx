@@ -1,11 +1,38 @@
-import { Button, Label, TextInput } from "flowbite-react";
-import React, { useRef } from "react";
+import { Button, Label, Spinner, TextInput } from "flowbite-react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { errorToast, isEmail, isEmpty } from "../helper/formHelper";
+import { signUpRequest } from "../apiRequest/apiRequest";
 
 const SignupPage = () => {
-  let emailRef,
-    userNameRef,
-    passwordRef = useRef();
+  const [formData, setFormData] = useState({});
+  const [loader, setLoader] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    setLoader(true);
+    e.preventDefault();
+
+    let email = formData.email;
+    let username = formData.username;
+    let password = formData.password;
+
+    if (isEmail(email)) {
+      errorToast("Valid Email Required");
+    } else if (isEmpty(username)) {
+      errorToast("Username required");
+    } else if (isEmpty(password)) {
+      errorToast("Password Required");
+    } else {
+      setLoader(true);
+      await signUpRequest(email, username, password);
+      setLoader(false);
+    }
+  };
+
   return (
     <div className='min-h-screen mt-20'>
       <div className='flex p-3 max-w-5xl mx-auto flex-col md:flex-row md:items-center gap-5 '>
@@ -20,14 +47,14 @@ const SignupPage = () => {
         </div>
         {/* Right Side */}
         <div className='flex-1'>
-          <form className='flex flex-col gap-4'>
+          <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
             <div>
               <Label value='Your Email' />
               <TextInput
                 type='email'
                 placeholder='name@company.com'
                 id='email'
-                ref={(input) => (emailRef = input)}
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -36,7 +63,7 @@ const SignupPage = () => {
                 type='text'
                 placeholder='Username'
                 id='username'
-                ref={(input) => (userNameRef = input)}
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -45,15 +72,22 @@ const SignupPage = () => {
                 type='password'
                 placeholder='Password'
                 id='password'
-                ref={(input) => (passwordRef = input)}
+                onChange={handleChange}
               />
             </div>
             <Button
               gradientDuoTone='greenToBlue'
               type='submit'
-              onClick={onSignup}
+              disabled={loader}
             >
-              Sign Up
+              {loader ? (
+                <>
+                  <Spinner size='sm' />
+                  <span className='pl-3'>Loading...</span>
+                </>
+              ) : (
+                "Sign Up"
+              )}
             </Button>
           </form>
           <div className='flex gap-2 text-sm mt-5'>
