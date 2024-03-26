@@ -14,7 +14,7 @@ const FooterCom = () => {
     <Footer container className='border border-t-4 border-teal-500'>
       <div className='w-full'>
         <div className='grid w-full justify-between sm:flex sm:justify-between md:flex md:grid-cols-1'>
-          <div className='py-7'>
+          <div className='p y-7'>
             <Link
               to='/'
               className='self-center whitespace-nowrap text-2xl sm:text-xl font-semibold dark:text-white'

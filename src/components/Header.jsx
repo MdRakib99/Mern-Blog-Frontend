@@ -1,10 +1,27 @@
-import { Button, Navbar, TextInput } from "flowbite-react";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  DropdownDivider,
+  DropdownHeader,
+  DropdownItem,
+  Navbar,
+  TextInput,
+} from "flowbite-react";
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
+import {
+  getToken,
+  getUserDetails,
+  removeSessions,
+} from "../helper/sessionHelper";
 
 const Header = () => {
+  const onLogout = () => {
+    removeSessions();
+  };
   const path = useLocation().pathname;
   return (
     <div>
@@ -34,11 +51,35 @@ const Header = () => {
             <FaMoon />
           </Button>
 
-          <Link to='/sign-in'>
-            <Button gradientDuoTone='greenToBlue' outline>
-              Sign In
-            </Button>
-          </Link>
+          {getToken() ? (
+            <Dropdown
+              arrowIcon={false}
+              inline
+              label={
+                <Avatar alt='user' img={getUserDetails()["photo"]} rounded />
+              }
+            >
+              <Dropdown.Header>
+                <span className='block text-sm'>
+                  {getUserDetails()["username"]}
+                </span>
+                <span className='block text-sm font-medium truncate'>
+                  {getUserDetails()["email"]}
+                </span>
+              </Dropdown.Header>
+              <Link to={"/dashboard?tab=profile"}>
+                <DropdownItem>Profile</DropdownItem>
+              </Link>
+              <DropdownDivider />
+              <DropdownItem onClick={onLogout}>Sign Out.</DropdownItem>
+            </Dropdown>
+          ) : (
+            <Link to='/sign-in'>
+              <Button gradientDuoTone='greenToBlue' outline>
+                Sign In
+              </Button>
+            </Link>
+          )}
 
           <Navbar.Toggle />
         </div>

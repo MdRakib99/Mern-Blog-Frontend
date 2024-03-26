@@ -1,6 +1,7 @@
 class sessionHelper {
   setToken(token) {
-    localStorage.setItem("token", token);
+    localStorage.setItem("token", JSON.stringify(token));
+    console.log("Token set in localStorage:", token);
   }
   getToken() {
     return localStorage.getItem("token");
@@ -10,8 +11,7 @@ class sessionHelper {
     localStorage.setItem("userDetails", JSON.stringify(userDetails));
   }
   getUserDetails() {
-    const userDetailsString = localStorage.getItem("userDetails");
-    return userDetailsString ? JSON.parse(userDetailsString) : null;
+    return JSON.parse(localStorage.getItem("userDetails"));
   }
 
   setEmail(email) {
@@ -30,7 +30,7 @@ class sessionHelper {
 
   removeSessions = () => {
     localStorage.clear();
-    window.location.href = "/login";
+    window.location.href = "/sign-in";
   };
 }
 export const {
