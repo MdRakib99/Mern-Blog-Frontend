@@ -2,7 +2,7 @@ import { Button, Label, Spinner, TextInput } from "flowbite-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { errorToast, isEmail, isEmpty } from "../helper/formHelper";
-import { signInRequest, signUpRequest } from "../apiRequest/apiRequest";
+import { signInRequest } from "../apiRequest/apiRequest";
 
 const SigninPage = () => {
   const [formData, setFormData] = useState({});
@@ -28,8 +28,14 @@ const SigninPage = () => {
       setLoader(false);
     } else {
       setLoader(true);
-      await signInRequest(email, password);
-      window.location.href = "/";
+      await signInRequest(email, password).then((res) => {
+        if (res === true) {
+          window.location.href = "/";
+        } else {
+          setLoader(false);
+          errorToast("Invalid Email or Password!");
+        }
+      });
     }
   };
 
@@ -84,8 +90,8 @@ const SigninPage = () => {
           </form>
           <div className='flex gap-2 text-sm mt-5'>
             <span>Don't have an account?</span>
-            <Link to='sign-up' className='text-blue-500'>
-              Sign In
+            <Link to='/sign-up' className='text-blue-500'>
+              Sign Up
             </Link>
           </div>
         </div>

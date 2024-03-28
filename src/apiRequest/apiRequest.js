@@ -1,8 +1,12 @@
 import axios from "axios";
 import { errorToast, successToast } from "../helper/formHelper";
-import { setToken, setUserDetails } from "../helper/sessionHelper";
+import { getToken, setToken, setUserDetails } from "../helper/sessionHelper";
+import store from "../redux/store";
+import { setProfile } from "../redux/user/profileSlice";
 
-const BaseURL = "http://localhost:5000/api/v1";
+const BaseURL = "http://localhost:5001/api/v1";
+
+const axiosHeader = { headers: { token: getToken() } };
 
 export function signUpRequest(email, username, password, photo) {
   let URL = `${BaseURL}/sign-up`;
@@ -52,5 +56,23 @@ export function signInRequest(email, password) {
     .catch((err) => {
       errorToast("Something went wrong");
       return false;
+    });
+}
+
+export function profileDetailsRequest() {
+  let URL = `${BaseURL}/profileDetails`;
+
+  return axios
+    .get(URL, axiosHeader)
+    .then((res) => {
+      if (res.status === 200) {
+        store.dispatch(setProfile(res.data["data"][0]));
+        console.log(res.data["data"]);
+      } else {
+        errorToast("something went wrong!");
+      }
+    })
+    .catch((err) => {
+      errorToast("Something went wrong!");
     });
 }

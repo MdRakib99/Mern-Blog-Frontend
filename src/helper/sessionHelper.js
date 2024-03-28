@@ -1,7 +1,6 @@
 class sessionHelper {
   setToken(token) {
-    localStorage.setItem("token", JSON.stringify(token));
-    console.log("Token set in localStorage:", token);
+    localStorage.setItem("token", token);
   }
   getToken() {
     return localStorage.getItem("token");

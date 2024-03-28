@@ -11,6 +11,8 @@ import Header from "./components/Header";
 import ProjectPage from "./pages/ProjectPage";
 import Footer from "./components/Footer";
 
+import PrivateRoute from "./components/PrivateRoute";
+
 const App = () => {
   return (
     <div>
@@ -19,10 +21,15 @@ const App = () => {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/about' element={<AboutPage />} />
-          <Route path='/projects' element={<ProjectPage />} />
+
           <Route path='/sign-in' element={<SigninPage />} />
           <Route path='/sign-up' element={<SignupPage />} />
-          <Route path='/dashboard' element={<DashboardPage />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route path='/dashboard' element={<DashboardPage />} />
+          </Route>
+
+          <Route path='/projects' element={<ProjectPage />} />
         </Routes>
         <Footer />
       </BrowserRouter>
