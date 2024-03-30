@@ -62,14 +62,52 @@ export function signInRequest(email, password) {
 export function profileDetailsRequest() {
   let URL = `${BaseURL}/profileDetails`;
 
+  console.log("Fetching profile details...");
+
   return axios
     .get(URL, axiosHeader)
     .then((res) => {
+      console.log("Profile details response:", res.data);
       if (res.status === 200) {
         store.dispatch(setProfile(res.data["data"][0]));
-        console.log(res.data["data"]);
       } else {
         errorToast("something went wrong!");
+      }
+    })
+    .catch((err) => {
+      console.error("Error fetching profile details:", err);
+      errorToast("Something went wrong!");
+    });
+}
+
+export function profileUpdateRequest(email, username, password, photo) {
+  let URL = `${BaseURL}/updateProfile`;
+
+  let postBody = {
+    email: email,
+    username: username,
+    password: password,
+    photo: photo,
+  };
+
+  let userDetails = {
+    email: email,
+    username: username,
+
+    photo: photo,
+  };
+
+  return axios
+    .post(URL, postBody, axiosHeader)
+    .then((res) => {
+      if (res.status === 200) {
+        successToast("Successfully updated Profile");
+        setUserDetails(userDetails);
+
+        return true;
+      } else {
+        errorToast("Something went wrong!");
+        return false;
       }
     })
     .catch((err) => {

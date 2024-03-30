@@ -6,6 +6,7 @@ import { signUpRequest } from "../apiRequest/apiRequest";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({});
+  console.log(formData);
   const [loader, setLoader] = useState(false);
 
   const navigate = useNavigate();
@@ -34,9 +35,12 @@ const SignupPage = () => {
       setLoader(false);
     } else {
       setLoader(true);
-      await signUpRequest(email, username, password, photo);
-      navigate("/sign-in");
-      setLoader(false);
+      await signUpRequest(email, username, password, photo).then((res) => {
+        if (res === true) {
+          navigate("/sign-in");
+          setLoader(false);
+        }
+      });
     }
   };
 
