@@ -34,6 +34,7 @@ export function signUpRequest(email, username, password, photo) {
     }
   });
 }
+
 export function signInRequest(email, password) {
   let URL = `${BaseURL}/login`;
 
@@ -62,12 +63,9 @@ export function signInRequest(email, password) {
 export function profileDetailsRequest() {
   let URL = `${BaseURL}/profileDetails`;
 
-  console.log("Fetching profile details...");
-
   return axios
     .get(URL, axiosHeader)
     .then((res) => {
-      console.log("Profile details response:", res.data);
       if (res.status === 200) {
         store.dispatch(setProfile(res.data["data"][0]));
       } else {

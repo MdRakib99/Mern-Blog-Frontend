@@ -6,7 +6,7 @@ import {
 } from "../apiRequest/apiRequest";
 import { useSelector } from "react-redux";
 import { errorToast, getBase64, isEmail, isEmpty } from "../helper/formHelper";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const DashProfile = () => {
   useEffect(() => {
@@ -66,6 +66,7 @@ const DashProfile = () => {
           accept='image/*'
           onChange={previewImage}
           ref={(input) => (userImgRef = input)}
+          hidden
         />
         <div
           className='w-20 h-20 self-center cursor-pointer shadow-md overflow-hidden rounded-full'
@@ -115,6 +116,17 @@ const DashProfile = () => {
             "Update"
           )}
         </Button>
+        {profileData.isAdmin && (
+          <Link to='/create-post'>
+            <Button
+              type='button'
+              gradientDuoTone='tealToLime'
+              className='w-full'
+            >
+              Create a post
+            </Button>
+          </Link>
+        )}
       </div>
     </div>
   );
