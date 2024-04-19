@@ -112,3 +112,24 @@ export function profileUpdateRequest(email, username, password, photo) {
       errorToast("Something went wrong!");
     });
 }
+
+// Create Post
+
+export function createPostRequest(postData) {
+  let URL = `${BaseURL}/create-post`;
+
+  return axios
+    .post(URL, postData, axiosHeader)
+    .then((res) => {
+      console.log(res);
+      if (res.status === 201) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}
