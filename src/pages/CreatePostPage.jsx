@@ -5,10 +5,10 @@ import "react-quill/dist/quill.snow.css";
 
 import { createPostRequest } from "../apiRequest/apiRequest";
 import { errorToast, successToast } from "../helper/formHelper";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CreatePostPage = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [file, setFile] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
@@ -34,22 +34,19 @@ const CreatePostPage = () => {
       postData.append("category", formData.category);
       postData.append("image", file);
 
-      await createPostRequest(postData)
-        .then((res) => {
-          if (res === true) {
-            setLoader(false);
-            successToast("Blog Created Successfully!");
-            setFormData({
-              title: "",
-              category: "uncategorized",
-              description: "",
-            });
-            setFile(null);
-          }
-        })
-        .catch((err) => {
-          setLoader(false);
+      const resData = await createPostRequest(postData);
+
+      if (resData && resData.slug) {
+        setLoader(false);
+        successToast("Blog Created Successfully!");
+        navigate(`/post/${resData.slug}`);
+        setFormData({
+          title: "",
+          category: "uncategorized",
+          description: "",
         });
+        setFile(null);
+      }
 
       // Reset form state after successful submission
     } catch (error) {

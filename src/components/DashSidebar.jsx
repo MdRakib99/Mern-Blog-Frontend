@@ -5,11 +5,13 @@ import {
   SidebarItems,
 } from "flowbite-react";
 import React, { useEffect, useState } from "react";
-import { HiArrowSmRight, HiUser } from "react-icons/hi";
+import { HiArrowSmRight, HiDocumentText, HiUser } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
+import { getUserDetails } from "../helper/sessionHelper";
 const DashSidebar = () => {
   const location = useLocation();
   const [tab, setTab] = useState("");
+  const profileData = getUserDetails();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -20,18 +22,28 @@ const DashSidebar = () => {
     }
   }, [location.search]);
   return (
-    <Sidebar className='w-full md:w-56'>
+    <Sidebar className='w-full md:w-56 '>
       <SidebarItems>
-        <SidebarItemGroup>
+        <SidebarItemGroup className='flex flex-col gap-1'>
           <Link to='/dashboard?tab=profile'>
             <SidebarItem
               active={tab === "profile"}
-              label={"user"}
+              label={profileData.isAdmin ? "admin" : "user"}
               // labelColor='dark'
               as='div'
               icon={HiUser}
             >
               Profile
+            </SidebarItem>
+          </Link>
+          <Link to='/dashboard?tab=posts'>
+            <SidebarItem
+              active={tab === "posts"}
+              // labelColor='dark'
+              as='div'
+              icon={HiDocumentText}
+            >
+              Posts
             </SidebarItem>
           </Link>
           <SidebarItem icon={HiArrowSmRight}>Sign Out</SidebarItem>

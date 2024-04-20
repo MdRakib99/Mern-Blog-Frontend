@@ -121,9 +121,9 @@ export function createPostRequest(postData) {
   return axios
     .post(URL, postData, axiosHeader)
     .then((res) => {
-      console.log(res);
+      console.log(res.data);
       if (res.status === 201) {
-        return true;
+        return res.data["data"];
       } else {
         return false;
       }
