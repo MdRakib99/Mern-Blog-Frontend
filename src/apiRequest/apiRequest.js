@@ -133,3 +133,23 @@ export function createPostRequest(postData) {
       throw err;
     });
 }
+
+// Blog List
+
+export function postListRequest() {
+  let URL = `${BaseURL}/posts-list`;
+
+  return axios
+    .get(URL, axiosHeader)
+    .then((res) => {
+      if (res.status === 200) {
+        return res.data["data"];
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}

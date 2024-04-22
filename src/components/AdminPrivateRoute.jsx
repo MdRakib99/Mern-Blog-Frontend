@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-import { useSelector } from "react-redux";
 import { profileDetailsRequest } from "../apiRequest/apiRequest";
 import { getUserDetails } from "../helper/sessionHelper";
 
