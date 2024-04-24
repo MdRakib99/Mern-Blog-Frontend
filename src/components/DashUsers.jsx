@@ -12,12 +12,16 @@ import {
 } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { getUserDetails } from "../helper/sessionHelper";
-import { deleteBlogRequest, postListRequest } from "../apiRequest/apiRequest";
+import {
+  deleteBlogRequest,
+  getUsersRequest,
+  postListRequest,
+} from "../apiRequest/apiRequest";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { errorToast, successToast } from "../helper/formHelper";
 
-const DashboardPosts = () => {
+const DashUsers = () => {
   const profileData = getUserDetails();
   const [userPosts, setUserPosts] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +29,7 @@ const DashboardPosts = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await postListRequest();
+      const res = await getUsersRequest();
 
       // Ensure res.posts is an array before setting it to userPosts
       if (Array.isArray(res.posts)) {
@@ -59,13 +63,10 @@ const DashboardPosts = () => {
           <Table hoverable className='shadow-sd'>
             <TableHead>
               <TableHeadCell>Created Date</TableHeadCell>
-              <TableHeadCell>Post Image</TableHeadCell>
-              <TableHeadCell>Post Title</TableHeadCell>
-              <TableHeadCell>Category</TableHeadCell>
+              <TableHeadCell>User Image</TableHeadCell>
+              <TableHeadCell>UserName</TableHeadCell>
+              <TableHeadCell>Admin</TableHeadCell>
               <TableHeadCell>Delete</TableHeadCell>
-              <TableHeadCell>
-                <span>Edit</span>
-              </TableHeadCell>
             </TableHead>
             <TableBody className='divide-y'>
               {/* Mapping through userPosts */}
@@ -145,4 +146,4 @@ const DashboardPosts = () => {
   );
 };
 
-export default DashboardPosts;
+export default DashUsers;

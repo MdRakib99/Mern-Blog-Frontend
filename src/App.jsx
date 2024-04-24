@@ -14,6 +14,8 @@ import Footer from "./components/Footer";
 import PrivateRoute from "./components/PrivateRoute";
 import AdminPrivateRoute from "./components/AdminPrivateRoute";
 import CreatePostPage from "./pages/CreatePostPage";
+import UpdatePostPage from "./pages/UpdatePostPage";
+import PostPage from "./pages/PostPage";
 
 const App = () => {
   return (
@@ -32,8 +34,10 @@ const App = () => {
           </Route>
           <Route element={<AdminPrivateRoute />}>
             <Route path='/create-post' element={<CreatePostPage />} />
+            <Route path='/update-post/:postId' element={<UpdatePostPage />} />
           </Route>
 
+          <Route path='/post/:postSlug' element={<PostPage />} />
           <Route path='/projects' element={<ProjectPage />} />
         </Routes>
         <Footer />

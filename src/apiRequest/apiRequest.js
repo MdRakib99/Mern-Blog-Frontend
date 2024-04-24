@@ -173,3 +173,57 @@ export function deleteBlogRequest(id) {
       throw err;
     });
 }
+
+export function getPostRequest(id) {
+  let URL = `${BaseURL}/get-post/${id}`;
+
+  return axios
+    .get(URL, axiosHeader)
+    .then((res) => {
+      if (res.status === 200) {
+        return res.data["data"];
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}
+
+export function updatePostRequest(postData, id) {
+  let URL = `${BaseURL}/update-post/${id}`;
+
+  return axios
+    .post(URL, postData, axiosHeader)
+    .then((res) => {
+      if (res.status === 200) {
+        return res.data["data"];
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}
+
+export function getUsersRequest() {
+  let URL = `${BaseURL}/get-users`;
+
+  return axios
+    .get(URL, axiosHeader)
+    .then((res) => {
+      if (res.status === 200) {
+        return res.data["data"];
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}
