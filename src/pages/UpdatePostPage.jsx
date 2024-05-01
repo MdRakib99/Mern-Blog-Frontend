@@ -101,8 +101,9 @@ const UpdatePostPage = () => {
             <option value='nextjs'> Next.js </option>
           </Select>
         </div>
-        <div className='flex gap-4 items-center justify-between border-2 border-dashed border-teal-400 p-3'>
+        <div className='flex gap-4 items-center justify-between   p-3'>
           <FileInput
+            className='w-full'
             type='file'
             accept='image/*'
             onChange={(e) => setFile(e.target.files[0])}
@@ -119,7 +120,7 @@ const UpdatePostPage = () => {
           theme='snow'
           placeholder='Write Something'
           required
-          className='h-72 mb-12'
+          className='h-24 mb-12'
           value={formData.description}
           onChange={(description) =>
             setFormData({

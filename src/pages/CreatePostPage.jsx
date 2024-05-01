@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Button, FileInput, Select, Spinner, TextInput } from "flowbite-react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-
 import { createPostRequest } from "../apiRequest/apiRequest";
 import { errorToast, successToast } from "../helper/formHelper";
 import { useNavigate } from "react-router-dom";
@@ -55,28 +54,28 @@ const CreatePostPage = () => {
   };
 
   return (
-    <div className='p-3 max-w-3xl mx-auto min-h-screen'>
-      <h1 className='text-center text-3xl my-7 font-sans font-semibold'>
+    <div className='container mx-auto p-4'>
+      <h1 className='text-center text-3xl font-semibold text-gray-800 mb-6'>
         Create a Blog
       </h1>
-      <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
-        <div className='flex flex-col gap-4 sm:flex-row justify-between'>
+      <form onSubmit={handleSubmit} className='max-w-lg mx-auto'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
           <TextInput
             type='text'
             placeholder='Title'
             required
-            id='title'
-            className='flex-1'
             value={formData.title}
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }
+            className='p-2 border border-gray-300 rounded'
           />
           <Select
             value={formData.category}
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
             }
+            className='p-2 border border-gray-300 rounded'
           >
             <option value='uncategorized'>Select a category</option>
             <option value='javascript'>Javascript</option>
@@ -84,7 +83,7 @@ const CreatePostPage = () => {
             <option value='nextjs'>Next.js</option>
           </Select>
         </div>
-        <div className='flex gap-4 items-center justify-between border-2 border-dashed border-teal-400 p-3'>
+        <div className='mt-4'>
           <FileInput
             type='file'
             accept='image/*'
@@ -95,18 +94,23 @@ const CreatePostPage = () => {
           <img
             src={URL.createObjectURL(file)}
             alt='Uploaded'
-            className='max-w-full mb-4'
+            className='max-w-full mt-4 rounded-lg shadow'
           />
         )}
         <ReactQuill
           theme='snow'
           placeholder='Write Something'
           required
-          className='h-72 mb-12'
           value={formData.description}
           onChange={(description) => setFormData({ ...formData, description })}
+          className='mt-4 border border-gray-300 rounded p-2'
         />
-        <Button type='submit' gradientDuoTone='cyanToBlue' disabled={loader}>
+        <Button
+          type='submit'
+          gradientDuoTone='cyanToBlue'
+          disabled={loader}
+          className='mt-4 w-full'
+        >
           {loader ? (
             <>
               <Spinner size='sm' />

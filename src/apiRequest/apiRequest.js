@@ -153,6 +153,23 @@ export function postListRequest() {
       throw err;
     });
 }
+export function allPostListRequest() {
+  let URL = `${BaseURL}/posts-list-all`;
+
+  return axios
+    .get(URL)
+    .then((res) => {
+      if (res.status === 200) {
+        return res.data["data"];
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}
 
 //Delete Blog
 
