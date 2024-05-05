@@ -244,3 +244,21 @@ export function getUsersRequest() {
       throw err;
     });
 }
+
+export function deleteUsersRequest(id) {
+  let URL = `${BaseURL}/delete-user/${id}`;
+
+  return axios
+    .delete(URL, axiosHeader)
+    .then((res) => {
+      if (res.status === 200) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}

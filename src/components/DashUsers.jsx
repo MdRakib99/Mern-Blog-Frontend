@@ -12,7 +12,7 @@ import {
 } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { getUserDetails } from "../helper/sessionHelper";
-import { deleteBlogRequest, getUsersRequest } from "../apiRequest/apiRequest";
+import { deleteUsersRequest, getUsersRequest } from "../apiRequest/apiRequest";
 import { Link } from "react-router-dom";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
 import { errorToast, successToast } from "../helper/formHelper";
@@ -36,13 +36,13 @@ const DashUsers = () => {
     })();
   }, []);
 
-  const handleDeletePost = (id) => {
+  const handleDeleteUser = (id) => {
     setShowModal(false);
-    deleteBlogRequest(id).then((result) => {
+    deleteUsersRequest(id).then((result) => {
       if (result === true) {
         successToast("Delete Successfully");
         // After successful deletion, update the userPosts state to remove the deleted post
-        setUserPosts(userPosts.filter((post) => post._id !== id));
+        setUsers(users.filter((user) => user._id !== id));
       } else {
         errorToast("Something went wrong!");
       }
@@ -66,7 +66,7 @@ const DashUsers = () => {
               <TableHeadCell>Admin</TableHeadCell>
               <TableHeadCell>Delete</TableHeadCell>
             </TableHead>
-            <TableBody className='divide-y' key={user._id}>
+            <TableBody className='divide-y' key={users._id}>
               {/* Mapping through userPosts */}
               {users.map((user) => (
                 <TableRow className='bg-white'>
@@ -100,7 +100,7 @@ const DashUsers = () => {
                   </TableCell>
                   <TableCell>
                     <span
-                      onClick={() => openDeleteModal(post._id)} // Pass post id to openDeleteModal function
+                      onClick={() => openDeleteModal(user._id)} // Pass post id to openDeleteModal function
                       className='font-medium text-red-500 hover:underline cursor-pointer'
                     >
                       Delete
@@ -129,7 +129,7 @@ const DashUsers = () => {
               <Button
                 color='failure'
                 onClick={() => {
-                  handleDeletePost(deleteId); // Pass deleteId to handleDeletePost function
+                  handleDeleteUser(deleteId); // Pass deleteId to handleDeletePost function
                 }}
               >
                 Yes, I'm sure
