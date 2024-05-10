@@ -28,7 +28,7 @@ const DashUsers = () => {
   useEffect(() => {
     (async () => {
       const res = await getUsersRequest();
-      console.log(res);
+
       // Ensure res.posts is an array before setting it to userPosts
       if (Array.isArray(res)) {
         setUsers(res);

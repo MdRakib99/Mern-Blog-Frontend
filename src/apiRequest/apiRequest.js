@@ -191,8 +191,8 @@ export function deleteBlogRequest(id) {
     });
 }
 
-export function getPostRequest(id) {
-  let URL = `${BaseURL}/get-post/${id}`;
+export function getPostRequest(identifier) {
+  let URL = `${BaseURL}/get-post/${identifier}`;
 
   return axios
     .get(URL, axiosHeader)

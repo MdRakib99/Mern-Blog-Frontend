@@ -5,7 +5,7 @@ import PostCard from "../components/PostCard";
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
-  console.log(posts);
+
   useEffect(() => {
     (async () => {
       const res = await allPostListRequest();

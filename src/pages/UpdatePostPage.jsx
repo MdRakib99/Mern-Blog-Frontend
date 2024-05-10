@@ -45,7 +45,6 @@ const UpdatePostPage = () => {
       postData.append("image", file);
 
       const resData = await updatePostRequest(postData, postId);
-      console.log(resData);
 
       if (resData && resData.slug) {
         setLoader(false);
