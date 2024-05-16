@@ -244,6 +244,23 @@ export function getUsersRequest() {
       throw err;
     });
 }
+export function getUsersAll(email) {
+  let URL = `${BaseURL}/get-users-all/${email}`;
+
+  return axios
+    .get(URL)
+    .then((res) => {
+      if (res.status === 200) {
+        return res.data["data"][0];
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}
 
 export function deleteUsersRequest(id) {
   let URL = `${BaseURL}/delete-user/${id}`;
@@ -253,6 +270,42 @@ export function deleteUsersRequest(id) {
     .then((res) => {
       if (res.status === 200) {
         return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}
+
+export function createCommentRequest(postData) {
+  let URL = `${BaseURL}/create-comment`;
+
+  return axios
+    .post(URL, postData, axiosHeader)
+    .then((res) => {
+      if (res.status === 201) {
+        return true;
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}
+
+export function getCommentRequest(postId) {
+  let URL = `${BaseURL}/get-comment/${postId}`;
+
+  return axios
+    .get(URL)
+    .then((res) => {
+      if (res.status === 200) {
+        return res["data"];
       } else {
         return false;
       }

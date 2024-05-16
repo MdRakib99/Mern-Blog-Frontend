@@ -2,11 +2,55 @@ import React, { useEffect, useState } from "react";
 import { getUserDetails } from "../helper/sessionHelper";
 import { Link } from "react-router-dom";
 import { Button, TextInput, Textarea } from "flowbite-react";
+import {
+  createCommentRequest,
+  getCommentRequest,
+} from "../apiRequest/apiRequest";
+import { errorToast, successToast } from "../helper/formHelper";
+import Comment from "./Comment";
 
 const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState("");
+  const [comments, setComments] = useState([]);
   const userDetails = getUserDetails();
-  console.log(userDetails);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (comment.length > 200) {
+      return;
+    }
+
+    try {
+      // Prepare data to be sent in the request
+      const postData = {
+        postId: postId,
+        userEmail: userDetails.email,
+        content: comment,
+      };
+
+      // Call the createCommentRequest function with postData
+      await createCommentRequest(postData).then((res) => {
+        if (!res === false) {
+          successToast("Comment added successfully");
+          setComment("");
+          // setComments([data, ...comments]);
+        }
+      });
+    } catch (error) {
+      // Handle errors
+      errorToast("You have to signin for comment");
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      await getCommentRequest(postId).then((res) => {
+        if (!res === false) {
+          setComments(res["data"]);
+        }
+      });
+    })();
+  }, [postId]);
 
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
@@ -34,11 +78,15 @@ const CommentSection = ({ postId }) => {
         </div>
       )}
       {userDetails && (
-        <form className='border border-teal-500 p-3 rounded-md '>
+        <form
+          onSubmit={handleSubmit}
+          className='border border-teal-500 p-3 rounded-md '
+        >
           <Textarea
             placeholder='Add a comment'
             rows='3'
             maxLength='200'
+            value={comment}
             onChange={(e) => {
               setComment(e.target.value);
             }}
@@ -52,6 +100,21 @@ const CommentSection = ({ postId }) => {
             </Button>
           </div>
         </form>
+      )}
+      {comments.length === 0 ? (
+        <p className='text-sm my-5'>No Comments yet!</p>
+      ) : (
+        <>
+          <div className='text-sm my-5 flex items-center gap-1'>
+            <p>Commets</p>
+            <div className='border border-gray-400 py-1 px-2 rounded-sm'>
+              <p>{comments.length}</p>
+            </div>
+          </div>
+          {comments.map((comment) => (
+            <Comment key={comment._id} comment={comment} />
+          ))}
+        </>
       )}
     </div>
   );

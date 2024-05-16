@@ -22,7 +22,7 @@ const Slider = () => {
         </Button>
       </div>
       <div className='p-7 flex-1'>
-        <img src='https://res.cloudinary.com/dtqdijla9/image/upload/v1713555119/v0x2qtwbvxvyqlghdktu.jpg' />
+        <img src='https://th.bing.com/th/id/OIP.OizEpj1lk0ViT5VmbGPAXAHaEK?rs=1&pid=ImgDetMain' />
       </div>
     </div>
   );
