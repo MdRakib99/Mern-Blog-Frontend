@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { getUserDetails } from "../helper/sessionHelper";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, TextInput, Textarea } from "flowbite-react";
 import {
   createCommentRequest,
   getCommentRequest,
+  likeCommentRequest,
 } from "../apiRequest/apiRequest";
 import { errorToast, successToast } from "../helper/formHelper";
 import Comment from "./Comment";
@@ -13,7 +14,7 @@ const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const userDetails = getUserDetails();
-
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (comment.length > 200) {
@@ -51,6 +52,27 @@ const CommentSection = ({ postId }) => {
       });
     })();
   }, [postId]);
+
+  const handleLike = async (commentId) => {
+    if (!userDetails) {
+      navigate("/sign-in");
+      return;
+    }
+
+    try {
+      await likeCommentRequest(commentId).then((res) => {
+        if (res) {
+          setComments((prevComments) =>
+            prevComments.map((comment) =>
+              comment._id === commentId ? res.data : comment
+            )
+          );
+        }
+      });
+    } catch (error) {
+      errorToast("Something went wrong!");
+    }
+  };
 
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
@@ -112,7 +134,7 @@ const CommentSection = ({ postId }) => {
             </div>
           </div>
           {comments.map((comment) => (
-            <Comment key={comment._id} comment={comment} />
+            <Comment key={comment._id} comment={comment} onLike={handleLike} />
           ))}
         </>
       )}

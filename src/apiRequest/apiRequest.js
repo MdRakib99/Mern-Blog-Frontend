@@ -315,3 +315,20 @@ export function getCommentRequest(postId) {
       throw err;
     });
 }
+export function likeCommentRequest(commentId) {
+  let URL = `${BaseURL}/likeComment/${commentId}`;
+
+  return axios
+    .get(URL, axiosHeader)
+    .then((res) => {
+      if (res.status === 200) {
+        return res["data"];
+      } else {
+        return false;
+      }
+    })
+    .catch((err) => {
+      errorToast("something went wrong!");
+      throw err;
+    });
+}

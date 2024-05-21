@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import { getUsersAll } from "../apiRequest/apiRequest";
+import { FaThumbsUp } from "react-icons/fa";
+import { getUserDetails } from "../helper/sessionHelper";
 
-const Comment = ({ comment }) => {
+const Comment = ({ comment, onLike }) => {
   const [user, setUser] = useState({});
-
+  const userDetails = getUserDetails();
   useEffect(() => {
     (async () => {
       await getUsersAll(comment.userEmail).then((res) => {
@@ -32,6 +34,19 @@ const Comment = ({ comment }) => {
           </span>
         </div>
         <p className='text-gray-500 pb-2'>{comment.content}</p>
+        <div>
+          <button
+            className={`text-gray-400 hover:text-blue-500 ${
+              getUserDetails &&
+              comment.likes.includes(userDetails["email"]) &&
+              "!text-blue-500"
+            }`}
+            type='button'
+            onClick={() => onLike(comment._id)}
+          >
+            <FaThumbsUp className='text-sm' />
+          </button>
+        </div>
       </div>
     </div>
   );
